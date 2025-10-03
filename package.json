@@ -24,7 +24,7 @@
     "test:coverage": "jest --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install",
+    "prepare": "echo skip husky on Vercel",
     "sw:build": "workbox generateSW workbox-config.js",
     "sw:inject": "workbox injectManifest workbox-config.js"
   },
