@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delay-1 {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  
+  .animate-float-delay-2 {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+  
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+  
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .select {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white;
+  }
+  
+  .status-badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .status-pending {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-in-progress {
+    @apply bg-blue-100 text-blue-800;
+  }
+  
+  .status-resolved {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .status-rejected {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .priority-badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .priority-low {
+    @apply bg-gray-100 text-gray-800;
+  }
+  
+  .priority-medium {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .priority-high {
+    @apply bg-orange-100 text-orange-800;
+  }
+  
+  .priority-urgent {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .color-indicator {
+    @apply w-4 h-4 rounded-full mr-3;
+  }
+  
+  .color-0 { background-color: #3b82f6; }
+  .color-1 { background-color: #10b981; }
+  .color-2 { background-color: #f59e0b; }
+  .color-3 { background-color: #ef4444; }
+  .color-4 { background-color: #8b5cf6; }
+  .color-5 { background-color: #06b6d4; }
+  
+  .map-container {
+    height: 400px;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .primary-600 {
+    color: #2563eb;
+  }
+  
+  .primary-700 {
+    color: #1d4ed8;
+  }
+  
+  .primary-500 {
+    color: #3b82f6;
+  }
+  
+  .primary-300 {
+    color: #93c5fd;
+  }
+  
+  .primary-100 {
+    background-color: #dbeafe;
+  }
+  
+  .bg-primary-600 {
+    background-color: #2563eb;
+  }
+  
+  .bg-primary-700 {
+    background-color: #1d4ed8;
+  }
+  
+  .bg-primary-500 {
+    background-color: #3b82f6;
+  }
+  
+  .bg-primary-300 {
+    background-color: #93c5fd;
+  }
+  
+  .bg-primary-100 {
+    background-color: #dbeafe;
+  }
+  
+  .text-primary-600 {
+    color: #2563eb;
+  }
+  
+  .text-primary-700 {
+    color: #1d4ed8;
+  }
+  
+  .text-primary-500 {
+    color: #3b82f6;
+  }
+  
+  .text-primary-300 {
+    color: #93c5fd;
+  }
+  
+  .border-primary-500 {
+    border-color: #3b82f6;
+  }
+  
+  .ring-primary-500 {
+    --tw-ring-color: #3b82f6;
+  }
+  
+  .ring-primary-300 {
+    --tw-ring-color: #93c5fd;
+  }
+}

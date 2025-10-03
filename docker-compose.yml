@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # Next.js Application
+  samudra-setu:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      # No mapping API key needed - using free OpenStreetMap!
+      - TWITTER_API_KEY=${TWITTER_API_KEY}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
+      - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - SENDGRID_SENDER_EMAIL=${SENDGRID_SENDER_EMAIL}
+      - FIREBASE_SERVER_KEY=${FIREBASE_SERVER_KEY}
+      - NOAA_API_KEY=${NOAA_API_KEY}
+    depends_on:
+      - redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis for caching and session storage
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - samudra-setu
+    restart: unless-stopped
+
+  # Social Media Monitoring Service
+  social-monitor:
+    build: .
+    command: npm run social-monitor
+    environment:
+      - NODE_ENV=production
+      - SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - TWITTER_API_KEY=${TWITTER_API_KEY}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
+      - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # Official Data Sync Service
+  data-sync:
+    build: .
+    command: npm run data-sync
+    environment:
+      - NODE_ENV=production
+      - SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - NOAA_API_KEY=${NOAA_API_KEY}
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+volumes:
+  redis_data:
